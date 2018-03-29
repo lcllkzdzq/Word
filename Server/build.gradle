@@ -1,7 +1,7 @@
 apply plugin: 'java'
 apply plugin: 'war'
 apply plugin: 'com.google.cloud.tools.appengine'
-apply plugin: 'com.bmuschko.tomcat'
+//apply plugin: 'com.bmuschko.tomcat'
 
 repositories {
     maven {
@@ -15,12 +15,12 @@ dependencies {
     compile 'com.google.appengine:appengine-api-1.0-sdk:+'
     compile 'org.springframework:spring-context:5.0.4.RELEASE'
     compile 'org.springframework:spring-webmvc:5.0.4.RELEASE'
-    providedCompile 'javax.servlet:javax.servlet-api:4.0.0'
-
-    def tomcatVersion = '9.0.1'
-    tomcat "org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}",
-            "org.apache.tomcat.embed:tomcat-embed-logging-juli:9.0.0.M6",
-            "org.apache.tomcat.embed:tomcat-embed-jasper:${tomcatVersion}"
+//    providedCompile 'javax.servlet:javax.servlet-api:4.0.0'
+//
+//    def tomcatVersion = '9.0.1'
+//    tomcat "org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}",
+//            "org.apache.tomcat.embed:tomcat-embed-logging-juli:9.0.0.M6",
+//            "org.apache.tomcat.embed:tomcat-embed-jasper:${tomcatVersion}"
 
     compile 'jstl:jstl:1.2'
 
@@ -33,10 +33,10 @@ dependencies {
     testCompile 'com.google.appengine:appengine-tools-sdk:+'
 }
 
-tomcat {
-    httpProtocol = 'org.apache.coyote.http11.Http11Nio2Protocol'
-    ajpProtocol  = 'org.apache.coyote.ajp.AjpNio2Protocol'
-}
+//tomcat {
+//    httpProtocol = 'org.apache.coyote.http11.Http11Nio2Protocol'
+//    ajpProtocol  = 'org.apache.coyote.ajp.AjpNio2Protocol'
+//}
 
 buildscript {
     repositories {
@@ -46,7 +46,7 @@ buildscript {
 
     dependencies {
         classpath 'com.google.cloud.tools:appengine-gradle-plugin:+'
-        classpath 'com.bmuschko:gradle-tomcat-plugin:2.5'
+//        classpath 'com.bmuschko:gradle-tomcat-plugin:2.5'
     }
 }
 
