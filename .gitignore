@@ -6,3 +6,4 @@ build/
 out/
 gradlew
 gradlew.bat
+carthage/
