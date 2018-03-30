@@ -15,6 +15,12 @@ dependencies {
     compile 'com.google.appengine:appengine-api-1.0-sdk:+'
     compile 'org.springframework:spring-context:5.0.4.RELEASE'
     compile 'org.springframework:spring-webmvc:5.0.4.RELEASE'
+
+    compile 'com.fasterxml.jackson.core:jackson-core:2.9.4'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.9.4'
+    compile 'com.fasterxml.jackson.core:jackson-annotations:2.9.4'
+
+
 //    providedCompile 'javax.servlet:javax.servlet-api:4.0.0'
 //
 //    def tomcatVersion = '9.0.1'
@@ -54,6 +60,10 @@ appengineDeploy.dependsOn test
 appengineStage.dependsOn test
 
 appengine {
+//    run {
+//        jvmFlags = ['-Xdebug', '-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005']
+//    }
+
     deploy {
 
     }
