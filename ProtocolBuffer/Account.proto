@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+option java_package = "com.vulpes.word.Model";
+option java_outer_classname = "AccountMessage";
+
+message AccountInfo {
+  string uuid = 1;
+  string username = 2;
+  string password = 3;
+  string registerDate = 4;
+  string lastSignInDate = 5;
+}

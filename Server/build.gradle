@@ -20,9 +20,11 @@ dependencies {
     compile 'com.fasterxml.jackson.core:jackson-databind:2.9.4'
     compile 'com.fasterxml.jackson.core:jackson-annotations:2.9.4'
 
+    compile 'com.google.protobuf:protobuf-java:3.5.1'
+    compile 'com.googlecode.protobuf-java-format:protobuf-java-format:1.4'
 
-//    providedCompile 'javax.servlet:javax.servlet-api:4.0.0'
-//
+    providedCompile 'javax.servlet:javax.servlet-api:4.0.0'
+
 //    def tomcatVersion = '9.0.1'
 //    tomcat "org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}",
 //            "org.apache.tomcat.embed:tomcat-embed-logging-juli:9.0.0.M6",

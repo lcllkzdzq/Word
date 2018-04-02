@@ -1,13 +1,13 @@
 package com.vulpes.word.Dao;
 
 import com.google.appengine.api.datastore.*;
-import com.vulpes.word.Model.AccountModel;
-import com.vulpes.word.Utils.AccountModelFactory;
+import com.vulpes.word.Model.AccountMessage;
+import com.vulpes.word.Utils.AccountInfoFactory;
 
 public class AccountDao {
-    public static AccountModel signUp(String usr, String pwd) {
-        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-        AccountModel model = AccountModelFactory.createAccountModel(usr, pwd);
+    public static AccountMessage.AccountInfo signUp(String usr, String pwd) {
+        DatastoreService dataStore = DatastoreServiceFactory.getDatastoreService();
+        AccountMessage.AccountInfo model = AccountInfoFactory.createAccountModel(usr, pwd);
 
         Entity account = new Entity("Account");
         account.setProperty("uuid", model.getUuid());
@@ -16,13 +16,12 @@ public class AccountDao {
         account.setProperty("registerDate", model.getRegisterDate());
         account.setProperty("lastSignInDate", model.getLastSignInDate());
 
-        datastore.put(account);
+        dataStore.put(account);
 
         return model;
     }
 
-    public static AccountModel signIn(String usr, String pwd) {
-        AccountModel model = AccountModelFactory.createAccountModel(usr, pwd);
-        return model;
+    public static AccountMessage.AccountInfo signIn(String usr, String pwd) {
+        return AccountInfoFactory.createAccountModel(usr, pwd);
     }
 }

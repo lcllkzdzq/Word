@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+option java_package = "com.vulpes.word.Model";
+option java_outer_classname = "SignInMessage";
+
+import "ResponseHeader.proto";
+import "Account.proto";
+
+message SignInRequest {
+  string username = 1;
+  string password = 2;
+}
+
+message SignInResponse {
+  ResponseHeader header = 1;
+  AccountInfo account = 2;
+}

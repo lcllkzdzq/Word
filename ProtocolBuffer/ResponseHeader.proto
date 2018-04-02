@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+option java_package = "com.vulpes.word.Model";
+option java_outer_classname = "ResponseMessage";
+
+message ResponseHeader {
+    sint32 status = 1;
+    string desc = 2;    
+}
+

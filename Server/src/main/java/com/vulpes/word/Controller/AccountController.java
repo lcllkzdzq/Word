@@ -2,32 +2,29 @@ package com.vulpes.word.Controller;
 
 
 import com.vulpes.word.Dao.AccountDao;
-import com.vulpes.word.Model.AccountModel;
-import com.vulpes.word.Model.ResponseModel;
-import com.vulpes.word.Utils.ResponseModelFactory;
+import com.vulpes.word.Model.*;
+import com.vulpes.word.Utils.SignInFactory;
+import com.vulpes.word.Utils.SignUpFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping(value = "/account")
 public class AccountController {
 
-    @RequestMapping(value = "", method = RequestMethod.GET)
+    @RequestMapping(value = "/signUp")
     @ResponseBody
-    public ResponseModel signUp(String usr, String pwd) {
-        AccountModel model = AccountDao.signUp(usr, pwd);
+    public SignUpMessage.SignUpResponse signUp(@RequestBody SignUpMessage.SignUpRequest account) {
+        AccountMessage.AccountInfo model = AccountDao.signUp(account.getUsername(), account.getPassword());
 
-        return ResponseModelFactory.createResponseModel(0, model);
+        return SignUpFactory.createSignUpResponse(0, model);
     }
 
-    @RequestMapping(value = "/{usr}", method = RequestMethod.GET)
+    @RequestMapping(value = "/signIn")
     @ResponseBody
-    public ResponseModel signIn(@PathVariable String usr, String sign) {
-        AccountModel model = AccountDao.signIn(usr, sign);
-        return ResponseModelFactory.createResponseModel(0, model);
+    public SignInMessage.SignInResponse signIn(@RequestBody SignInMessage.SignInRequest account) {
+        AccountMessage.AccountInfo model = AccountDao.signIn(account.getUsername(), account.getPassword());
+
+        return SignInFactory.createSignInResponse(0, model);
     }
 }
