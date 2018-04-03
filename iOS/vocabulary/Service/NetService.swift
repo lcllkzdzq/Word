@@ -9,38 +9,60 @@
 import Foundation
 import Alamofire
 import ReactiveSwift
+import SwiftProtobuf
 
 protocol NetServiceProtocol {
+    associatedtype ResponseType
+    
     func checkValue() -> Bool
     func url() -> String
-    func parameters() -> [String: String]?
-    func method() -> HTTPMethod
-    func completionHandler(result: SignalProducer<String, NetError>) -> SignalProducer<String, NetError>
+    func requestMessage() throws -> Data
+    func responseMessage(data: Data) throws -> ResponseType
 }
 
 class NetService {
-    static func sendNetService(url: String, parameters: [String: String]?, method: HTTPMethod, completionHandler: @escaping (Result<String>) -> Void) {
+    fileprivate static func sendProtobufService(url: String, data: Data, completionHandler: @escaping (Result<Data>) -> Void) {
+        let header = ["Accept": "application/x-protobuf",
+                      "Content-Type":"application/x-protobuf"]
         
-        Alamofire.request(url, method: method, parameters: parameters, encoding: URLEncoding.default, headers: nil).responseString { response in
+        Alamofire.request(url, method: .post, parameters: [:], encoding: data, headers: header).responseData { response in
             completionHandler(response.result)
         }
     }
     
-    static func sendService(service: NetServiceProtocol) -> SignalProducer<String, NetError> {
-        let signalProducer = SignalProducer<String, NetError> { observer, _ in
+    static func protobufService<E: NetServiceProtocol, F>(service: E) -> SignalProducer<F, NetError> where E.ResponseType == F {
+        return SignalProducer<F, NetError> { observer, _ in
             if service.checkValue() {
-                self.sendNetService(url: service.url(), parameters: service.parameters(), method: service.method()) { response in
-                    if response.isSuccess {
-                        observer.send(value: response.value!)
-                    } else {
-                        observer.send(error: NetError())
+                do {
+                    let data = try service.requestMessage()
+                    
+                    self.sendProtobufService(url: service.url(), data: data) { result in
+                        if result.isSuccess {
+                            do {
+                                let value = try service.responseMessage(data: result.value!)
+                                observer.send(value: value)
+                            } catch { // response serialize fail
+                                observer.send(error: NetError())
+                            }
+                        } else { // request fail
+                            observer.send(error: NetError())
+                        }
                     }
+                } catch { // request serialize fail
+                    observer.send(error: NetError())
                 }
-            } else {
+            } else { // parament check fail
                 observer.send(error: NetError())
             }
         }
-        
-        return service.completionHandler(result: signalProducer)
     }
 }
+
+extension Data: ParameterEncoding {
+    public func encode(_ urlRequest: URLRequestConvertible, with parameters: Parameters?) throws -> URLRequest {
+        var request = try urlRequest.asURLRequest()
+        request.httpBody = self
+        return request
+    }
+}
+

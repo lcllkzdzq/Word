@@ -37,6 +37,7 @@ class SignInViewController: UIViewController {
     
     func bindData() {
         signInButton.reactive.pressed = CocoaAction(viewModel.signInAction)
+        signUpButton.reactive.pressed = CocoaAction(viewModel.signUpAction)
         viewModel.username <~ usernameTextField.reactive.textValues
         viewModel.password <~ passwordTextField.reactive.textValues
 
@@ -44,5 +45,7 @@ class SignInViewController: UIViewController {
         viewModel.signInSuccessSignal.observeValues {_ in
             self.dismiss(animated: true, completion: nil)
         }
+        
+        
     }
 }
